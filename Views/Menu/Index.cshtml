@@ -1,0 +1,60 @@
+@model IEnumerable<Anthemis.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Menu";
+
+    var categories = ViewBag.Categories as List<string> ?? new List<string>();
+    var selectedCategory = ViewBag.SelectedCategory as string;
+}
+
+<section class="container py-4">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Menu</h1>
+        <p class="text-muted">Explore our carefully selected dishes and drinks.</p>
+    </div>
+
+    <div class="mb-4 text-center">
+        <a asp-controller="Menu" asp-action="Index"
+            class="btn @(string.IsNullOrEmpty(selectedCategory) ? "btn-dark" : "btn-outline-dark") rounded-pill me-2 mb-2 px-3">
+            All
+        </a>
+
+        @foreach (var category in categories){
+            <a asp-controller="Menu" asp-action="Index" asp-route-category="@category"
+               class="btn @(selectedCategory == category ? "btn-dark" : "btn-outline-dark") rounded-pill me-2 mb-2 px-3">
+                @category
+            </a>
+        }
+    </div>
+
+    @if (!Model.Any()){
+        <div class="alert alert-info text-center"> No menu items found.</div>
+    } else {
+        <div class="row g-4">
+            @foreach (var item in Model){
+                <div class="col-md-4">
+                    <article class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl)){
+                            <img src="@item.ImageUrl" class="card-img-top menu-img object-fit-cover" alt="@item.Name" />
+                        } else {
+                            <div class="menu-placeholder bg-light d-flex align-items-center justify-content-center">
+                                <span class="text-muted">No Image</span>
+                            </div>
+                        }
+
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h5 class="card-title mb-0">@item.Name</h5>
+                                <span class="badge text-bg-secondary">@item.Category</span>
+                            </div>
+
+                            <p class="card-text text-muted flex-grow-1"> @item.Description</p>
+
+                            <strong class="fs-5 mt-3">@item.Price.ToString("C")</strong>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</section>

@@ -1,0 +1,39 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fffaf5;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Playfair Display', serif;
+}
+
+.hero-section {
+    min-height: 75vh;
+    background: linear-gradient(rgba(0, 0, 0, .58), rgba(0, 0, 0, .58)), url("https://images.unsplash.com/photo-1573649869423-459880124cc7");
+    background-size: cover;
+    background-position: center;
+}
+
+.menu-img, .menu-placeholder {
+    height: 220px;
+}
+
+.daily-carousel-img, .daily-carousel-placeholder {
+    height: 460px;
+}
+
+@media (max-width: 768px) {
+    .daily-carousel-img, .daily-carousel-placeholder {
+        height: 340px;
+    }
+}

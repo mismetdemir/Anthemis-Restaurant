@@ -1,0 +1,119 @@
+@using Microsoft.AspNetCore.Http
+
+@{
+    var username = Context.Session.GetString("Username");
+    var role = Context.Session.GetString("Role");
+    var isLoggedIn = !string.IsNullOrEmpty(username);
+    var isAdmin = role == "Admin";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Anthemis</title>
+
+    <script type="importmap"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Anthemis.styles.css" asp-append-version="true" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fs-3 fw-bold" asp-controller="Home" asp-action="Index">Anthemis</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" asp-controller="Menu" asp-action="Index">Menu</a>
+                        </li>
+
+                        @if (isLoggedIn && !isAdmin){
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" asp-controller="Reservation" asp-action="Create">Reservation</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" asp-controller="Reservation" asp-action="MyReservations">My Reservations</a>
+                            </li>
+                        }
+
+                        @if (isLoggedIn && isAdmin){
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" asp-controller="Admin" asp-action="Reservations">Reservations</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        @if (!isLoggedIn){
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-dark rounded-pill ms-lg-2 px-3" asp-controller="Account" asp-action="Register">
+                                    Register
+                                </a>
+                            </li>
+                        } else {
+                            <li class="nav-item me-lg-3">
+                                <span class="navbar-text">
+                                    Welcome, <strong>@username</strong>
+
+                                    @if (isAdmin){
+                                        <span class="badge text-bg-dark ms-1">Admin</span>
+                                    }
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-outline-danger btn-sm rounded-pill px-3" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-dark text-light mt-5 py-5">
+        <div class="container">
+            <div class="text-center small text-white-50">
+                &copy; 2026 - Anthemis
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,66 @@
+@model IEnumerable<Anthemis.Models.Reservation>
+
+@{
+    ViewData["Title"] = "My Reservations";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">My Reservations</h2>
+
+    @if (TempData["SuccessMessage"] != null){
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any()){
+        <div class="alert alert-info">
+            You do not have any reservations yet.
+        </div>
+
+        <a asp-controller="Reservation" asp-action="Create" class="btn btn-primary">Make Your First Reservation</a>
+    } else {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Guest Count</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model){
+                    var badgeClass = item.Status switch{
+                        "Approved" => "bg-success",
+                        "Cancelled" => "bg-danger",
+                        "Pending" => "bg-warning text-dark",
+                        _ => "bg-secondary"
+                    };
+
+                    <tr>
+                        <td>@item.ReservationDate.ToString("dd MMM yyyy")</td>
+                        <td>@item.ReservationTime.ToString(@"hh\:mm")</td>
+                        <td>@item.GuestCount</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>
+                            <span class="badge @badgeClass">@item.Status</span>
+                        </td>
+                        <td>
+                            @if (string.IsNullOrEmpty(item.Note)){
+                                <span class="text-muted">No note</span>
+                            } else {
+                                @item.Note
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            </table>
+        </div>
+    }
+</div>

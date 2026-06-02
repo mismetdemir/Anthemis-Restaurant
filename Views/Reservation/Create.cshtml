@@ -1,0 +1,68 @@
+@model Anthemis.Models.ReservationViewModel
+
+@{
+    ViewData["Title"] = "Make Reservation";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Make a Reservation</h2>
+
+                    <form asp-controller="Reservation" asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label">Full Name</label>
+                            <input asp-for="FullName" class="form-control" placeholder="Enter your full name">
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ReservationDate" class="form-label">Date</label>
+                                <input asp-for="ReservationDate" type="date" class="form-control">
+                                <span asp-validation-for="ReservationDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ReservationTime" class="form-label">Time</label>
+                                <input asp-for="ReservationTime" type="time" class="form-control">
+                                <span asp-validation-for="ReservationTime" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="GuestCount" class="form-label">Guests</label>
+                            <select asp-for="GuestCount" class="form-select">
+                                @for (int i = 1; i <= 20; i++){
+                                    <option value="@i">@i people</option>
+                                }
+                            </select>
+                            <span asp-validation-for="GuestCount" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Note" class="form-label"></label>
+                            <textarea asp-for="Note" class="form-control" rows="4" 
+                                placeholder="Special requests, allergies, table preference..."></textarea>
+                            <span asp-validation-for="Note" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Create Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

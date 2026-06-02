@@ -1,0 +1,138 @@
+@model Anthemis.Models.HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<header class="hero-section d-flex align-items-center text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h1 class="display-4 fw-bold mb-3">Welcome to Anthemis</h1>
+
+                <p class="lead mb-4">Enjoy warm atmosphere of bosphorus with high-quality dining experience.</p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a asp-controller="Menu" asp-action="Index" class="btn btn-light btn-lg rounded-pill px-4">View Menu</a>
+                    <a asp-controller="Reservation" asp-action="Create" class="btn btn-outline-light btn-lg rounded-pill px-4">Make Reservation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Today's Specials</h2>
+    </div>
+
+    <div id="dailySpecialCarousel" class="carousel slide rounded-4 overflow-hidden shadow bg-dark" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            @for (int i = 0; i < Model.DailyPicks.Count; i++){
+                <button type="button"
+                        data-bs-target="#dailySpecialCarousel"
+                        data-bs-slide-to="@i"
+                        class="@(i == 0 ? "active" : "")"
+                        aria-current="@(i == 0 ? "true" : "false")"
+                        aria-label="Slide @(i + 1)">
+                </button>
+            }
+        </div>
+
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.DailyPicks.Count; i++){
+                var item = Model.DailyPicks[i];
+
+                <div class="carousel-item position-relative @(i == 0 ? "active" : "")">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl)){
+                        <img src="@item.ImageUrl" class="d-block w-100 object-fit-cover daily-carousel-img opacity-75" alt="@item.Name">
+                    } else {
+                        <div class="daily-carousel-placeholder d-flex align-items-center justify-content-center text-white">
+                            <span>No Image</span>
+                        </div>
+                    }
+
+                    <div class="position-absolute top-50 start-50 translate-middle text-center text-white w-75">
+                        <span class="badge text-bg-light mb-2">@item.Category</span>
+                        <h3 class="fw-bold display-6">@item.Name</h3>
+                        <p class="d-none d-md-block">@item.Description</p>
+                        <strong class="fs-4">@item.Price.ToString("C")</strong>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#dailySpecialCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#dailySpecialCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">About Anthemis</h2>
+        <p class="text-muted mx-auto col-lg-8">
+            Anthemis is a modern restaurant located by the Bosphorus in Istanbul.
+            Guests can enjoy a calm waterfront atmosphere, explore fresh menu selections for a comfortable dining experience.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <article class="card h-100 shadow-sm border-0 rounded-4">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Fresh Menu</h4>
+                    <p class="card-text text-muted">Browse starters, main courses, desserts and drinks prepared with fresh ingredients.</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <article class="card h-100 shadow-sm border-0 rounded-4">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Easy Reservation</h4>
+                    <p class="card-text text-muted">Reserve your table online easily.</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <article class="card h-100 shadow-sm border-0 rounded-4">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Bosphorus Atmosphere</h4>
+                    <p class="card-text text-muted">Enjoy a relaxed Istanbul view with warm service and an elegant restaurant setting.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold">A Bosphorus-side restaurant experience</h2>
+            <p class="text-muted">
+                Anthemis brings together fresh flavors, comfortable seating and a peaceful Bosphorus atmosphere.
+                It is designed for casual lunches, evening dinners and special moments by the water.
+            </p>
+
+            <ul class="list-group list-group-flush shadow-sm rounded-4 overflow-hidden">
+                <li class="list-group-item">Bosphorus-side location in Istanbul</li>
+                <li class="list-group-item">Fresh starters, main courses, desserts and drinks</li>
+                <li class="list-group-item">Online table reservation option</li>
+                <li class="list-group-item">Warm service and elegant atmosphere</li>
+                <li class="list-group-item">Suitable for lunches, dinners and special evenings</li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1589561454226-796a8aa89b05" alt="Bosphorus" class="img-fluid rounded-4 shadow">
+        </div>
+    </div>
+</section>
