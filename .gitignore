@@ -9,3 +9,5 @@ obj/
 *.db-wal
 appsettings.Development.json
 *.log
+AnthemisPublish.zip
+publish/
