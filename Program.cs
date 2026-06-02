@@ -19,8 +19,9 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlite("Data Source=anthemis.db"));
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "anthemis.db");
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={dbPath}"));
 
 var app = builder.Build();
 
